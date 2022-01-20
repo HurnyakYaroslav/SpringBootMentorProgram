@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/db.changelog-lesson1.yaml
+  - changeSet:
+      id: 1
+      author: yaroslav_hurniak
+      changes:
+        - createTable:
+            tableName: abiturient
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+              - column:
+                  name: first_name
+                  type: varchar(50)
+              - column:
+                  name: last_name
+                  type: varchar(512)
+#              - column:
+#                  name: password
+#                  type: varchar(50)
+#                  constraints:
+#                    unique: true
+              - column:
+                  name: phone_number
+                  type: varchar(50)
+  - changeSet:
+      id: 2
+      author: yaroslav_hurniak
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  afterColumn: last_name
+                  name: password
+                  type: varchar(50)
+            tableName: abiturient

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,20 +35,24 @@ public class AbiturientService {
     {
         Abiturient abiturient = mapper.map(abiturientDto, Abiturient.class);
         abiturient.setId(id);
-        return mapper.map(abiturientDao.update(abiturient), DetailedAbiturientDto.class);
+        Optional<Abiturient> oldAbiturient = abiturientDao.findById((long)id);
+        if (oldAbiturient.isPresent()){
+            oldAbiturient = Optional.of(abiturient);
+        }
+        return mapper.map(oldAbiturient, DetailedAbiturientDto.class);
     }
 
     public void delete(int id) {
-        Abiturient abiturient = abiturientDao.getById(id);
-        if (abiturient == null) {
+        Optional<Abiturient> abiturient = abiturientDao.findById((long) id);
+        if (abiturient.isEmpty()) {
             throw new EntityNotFoundException("AbiturientExceptionMessage" + id);
         }
-        abiturientDao.delete(abiturient);
+        abiturientDao.delete(abiturient.get());
     }
 
     public DetailedAbiturientDto getById(int id) {
-        Abiturient abiturient = abiturientDao.getById(id);
-        if (abiturient == null) {
+        Optional<Abiturient> abiturient = abiturientDao.findById((long)id);
+        if (abiturient.isEmpty()) {
             throw new EntityNotFoundException("AbiturientExceptionMessage: id = " + id);
         }
         return mapper.map(abiturient, DetailedAbiturientDto.class);
@@ -55,7 +60,7 @@ public class AbiturientService {
 
     public List<DetailedAbiturientDto> getAll() {
         return new ArrayList<>(abiturientDao
-                .getAll()).stream()
+                .findAll()).stream()
                 .map(abiturient -> mapper.map(abiturient, DetailedAbiturientDto.class))
                 .collect(Collectors.toList());
     }
