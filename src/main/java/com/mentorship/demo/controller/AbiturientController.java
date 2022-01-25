@@ -20,7 +20,7 @@ public class AbiturientController {
     private final AbiturientService abiturientService;
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public DetailedAbiturientDto getById(@PathVariable int id) {
         return abiturientService.getById(id);
     }
@@ -35,9 +35,9 @@ public class AbiturientController {
 
     @PutMapping("/")
     @ResponseStatus(HttpStatus.OK)
-  public DetailedAbiturientDto updateAbiturient(@RequestBody AbiturientDto abiturientDto, @RequestParam int id) {
-      return abiturientService.update(abiturientDto, id);
-  }
+    public DetailedAbiturientDto updateAbiturient(@RequestBody AbiturientDto abiturientDto, @RequestParam int id) {
+        return abiturientService.update(abiturientDto, id);
+    }
 
 
     @DeleteMapping("/{id}")
