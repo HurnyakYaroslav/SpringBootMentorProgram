@@ -7,6 +7,7 @@ import com.mentorship.demo.model.Abiturient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -22,6 +23,9 @@ public class AbiturientService {
 
     private final AbiturientDao abiturientDao;
     private final ModelMapper mapper;
+
+    @Value("${message}")
+    private String profileMessage;
 
     public DetailedAbiturientDto save(AbiturientDto abiturientDto) {
         log.info("Dto from service " + abiturientDto);
@@ -59,6 +63,7 @@ public class AbiturientService {
     }
 
     public List<DetailedAbiturientDto> getAll() {
+        log.info(profileMessage);
         return new ArrayList<>(abiturientDao
                 .findAll()).stream()
                 .map(abiturient -> mapper.map(abiturient, DetailedAbiturientDto.class))

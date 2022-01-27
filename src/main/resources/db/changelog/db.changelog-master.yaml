@@ -34,5 +34,5 @@ databaseChangeLog:
               - column:
                   afterColumn: last_name
                   name: password
-                  type: varchar(50)
+                  type: varchar(400)
             tableName: abiturient
